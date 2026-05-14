@@ -4,6 +4,10 @@ on:
   push:
     branches: [ main ]
 
+# Нужно для peaceiris: push ветки gh-pages от имени GITHUB_TOKEN
+permissions:
+  contents: write
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
