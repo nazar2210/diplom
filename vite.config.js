@@ -15,7 +15,8 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist',
-    sourcemap: true
+    // В CI (GitHub Actions) sourcemap сильно раздувает память при большом бандле
+    sourcemap: !process.env.CI
   }
 })
 

@@ -31,7 +31,17 @@ jobs:
         run: npm ci
 
       - name: Build
+        env:
+          NODE_OPTIONS: --max-old-space-size=8192
         run: npm run build
+
+      - name: Debug after failed build
+        if: failure()
+        run: |
+          node -v
+          npm -v
+          npx vite --version || true
+          ls -la dist 2>/dev/null || echo "no dist"
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
