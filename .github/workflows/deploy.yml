@@ -6,6 +6,7 @@ on:
 
 permissions:
   contents: read
+  actions: write # артефакт для upload-pages-artifact
   pages: write
   id-token: write
 
