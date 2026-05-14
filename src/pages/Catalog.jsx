@@ -56,7 +56,7 @@ const mockProducts = [
     originalPrice: 5000,
     rating: 4.9,
     reviews: 67,
-    image: assetUrl('portable-tank.jpg'),
+    image: assetUrl('portable-oxygen-5l-promo.png'),
     description: 'Компактный портативный баллон для мобильного использования',
     features: ['Компактный', 'Легкий', 'Удобный', 'Портативный'],
     inStock: true,

@@ -391,7 +391,7 @@ const Home = () => {
       name: 'Портативный баллон 5л',
       price: '4,500 ₽',
       category: 'portable',
-      image: '/api/placeholder/300/200',
+      image: assetUrl('portable-oxygen-5l-promo.png'),
       features: ['Компактный', 'Легкий', 'Удобный']
     }
   ]
