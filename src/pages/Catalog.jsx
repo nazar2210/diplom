@@ -70,7 +70,7 @@ const mockProducts = [
     originalPrice: 14000,
     rating: 4.7,
     reviews: 156,
-    image: assetUrl('medical-oxygen.jpg'),
+    image: assetUrl('medical-oxygen-20l-promo.png'),
     description: 'Увеличенный объем медицинского кислорода',
     features: ['99.5% чистоты', 'Большой объем', 'Медицинский класс', 'Долгосрочное хранение'],
     inStock: true,
