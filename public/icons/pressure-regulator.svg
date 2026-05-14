@@ -1,0 +1,64 @@
+<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Основной корпус регулятора -->
+  <rect x="35" y="40" width="50" height="40" rx="8" fill="#374151" stroke="#1F2937" stroke-width="2"/>
+  
+  <!-- Верхняя часть -->
+  <rect x="40" y="35" width="40" height="15" rx="8" fill="#4B5563" stroke="#1F2937" stroke-width="2"/>
+  
+  <!-- Шкала давления -->
+  <circle cx="60" cy="60" r="20" fill="#1F2937" stroke="#374151" stroke-width="2"/>
+  <circle cx="60" cy="60" r="15" fill="#111827"/>
+  
+  <!-- Стрелка -->
+  <line x1="60" y1="60" x2="60" y2="45" stroke="#EF4444" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="60" cy="60" r="3" fill="#EF4444"/>
+  
+  <!-- Деления на шкале -->
+  <g stroke="#6B7280" stroke-width="1">
+    <line x1="60" y1="40" x2="60" y2="35"/>
+    <line x1="70" y1="50" x2="75" y2="50"/>
+    <line x1="60" y1="80" x2="60" y2="85"/>
+    <line x1="50" y1="50" x2="45" y2="50"/>
+  </g>
+  
+  <!-- Цифры на шкале -->
+  <text x="60" y="32" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#9CA3AF">0</text>
+  <text x="80" y="55" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#9CA3AF">3</text>
+  <text x="60" y="90" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#9CA3AF">6</text>
+  <text x="40" y="55" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#9CA3AF">9</text>
+  
+  <!-- Входной патрубок -->
+  <rect x="20" y="55" width="15" height="10" rx="2" fill="#6B7280"/>
+  <rect x="18" y="57" width="4" height="6" fill="#4B5563"/>
+  
+  <!-- Выходной патрубок -->
+  <rect x="85" y="55" width="15" height="10" rx="2" fill="#6B7280"/>
+  <rect x="98" y="57" width="4" height="6" fill="#4B5563"/>
+  
+  <!-- Регулировочный винт -->
+  <rect x="55" y="25" width="10" height="8" rx="2" fill="#9CA3AF"/>
+  <rect x="58" y="22" width="4" height="3" fill="#6B7280"/>
+  
+  <!-- Манометр -->
+  <circle cx="60" cy="90" r="8" fill="#1F2937" stroke="#374151" stroke-width="1"/>
+  <circle cx="60" cy="90" r="6" fill="#111827"/>
+  <line x1="60" y1="90" x2="60" y2="84" stroke="#10B981" stroke-width="2" stroke-linecap="round"/>
+  
+  <!-- Подставка -->
+  <rect x="30" y="100" width="60" height="8" rx="4" fill="#6B7280"/>
+  
+  <!-- Тень -->
+  <ellipse cx="60" cy="110" rx="35" ry="6" fill="#000000" opacity="0.1"/>
+  
+  <!-- Этикетка -->
+  <rect x="40" y="85" width="40" height="12" rx="2" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1"/>
+  <text x="60" y="94" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#374151">REGULATOR</text>
+  
+  <!-- Технические детали -->
+  <g stroke="#6B7280" stroke-width="1" opacity="0.5">
+    <line x1="45" y1="45" x2="55" y2="45"/>
+    <line x1="65" y1="45" x2="75" y2="45"/>
+    <line x1="45" y1="75" x2="55" y2="75"/>
+    <line x1="65" y1="75" x2="75" y2="75"/>
+  </g>
+</svg>
