@@ -98,7 +98,7 @@ const mockProducts = [
     originalPrice: 4000,
     rating: 4.8,
     reviews: 92,
-    image: assetUrl('industrial-oxygen.jpg'),
+    image: assetUrl('pressure-regulator-promo.png'),
     description: 'Профессиональный регулятор давления для кислородных баллонов',
     features: ['Точная регулировка', 'Прочный корпус', 'Профессиональный', 'Долговечный'],
     inStock: true,
