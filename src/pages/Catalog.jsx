@@ -84,7 +84,7 @@ const mockProducts = [
     originalPrice: 32000,
     rating: 4.5,
     reviews: 43,
-    image: assetUrl('industrial-oxygen.jpg'),
+    image: assetUrl('oxygen-80l-promo.png'),
     description: 'Большой промышленный баллон для крупных производств',
     features: ['99.2% чистоты', 'Максимальный объем', 'Промышленный класс', 'Экономичный'],
     inStock: false,
