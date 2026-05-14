@@ -8,6 +8,7 @@ import {
 import { Link } from 'react-router-dom'
 import clsx from 'clsx'
 import ProductIcon from '../components/ProductIcon'
+import { assetUrl, publicImageSrc } from '../utils/assetUrl'
 import { 
   ArrowRight, 
   Shield, 
@@ -376,7 +377,7 @@ const Home = () => {
       name: 'Медицинский кислород 10л',
       price: '7,500 ₽',
       category: 'medical',
-      image: '/medical-oxygen-10l-promo.png',
+      image: assetUrl('medical-oxygen-10l-promo.png'),
       features: ['99.5% чистоты', 'Медицинский класс', 'Быстрая доставка']
     },
     {
@@ -561,7 +562,7 @@ const Home = () => {
                 <div className="h-64 sm:h-72 bg-white dark:bg-white flex items-center justify-center p-0 sm:p-0.5">
                   {product.image?.startsWith('/') && !product.image.includes('placeholder') ? (
                     <img
-                      src={product.image}
+                      src={publicImageSrc(product.image)}
                       alt=""
                       className="h-full w-full object-contain object-center"
                     />

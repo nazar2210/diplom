@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import ProductIcon from '../components/ProductIcon'
+import { publicImageSrc } from '../utils/assetUrl'
 import { 
   User, 
   Mail, 
@@ -378,7 +379,7 @@ const Profile = () => {
                                   <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-primary-100 to-oxygen-100 dark:from-primary-900/30 dark:to-oxygen-900/20 shrink-0 overflow-hidden flex items-center justify-center">
                                     {item.image ? (
                                       <img
-                                        src={item.image}
+                                        src={publicImageSrc(item.image)}
                                         alt=""
                                         className="w-full h-full object-cover"
                                       />

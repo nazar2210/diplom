@@ -6,6 +6,7 @@ import { useCart } from '../contexts/CartContext'
 import { useNotifications } from '../contexts/NotificationContext'
 import { useReviews } from '../contexts/ReviewsContext'
 import ProductIcon from '../components/ProductIcon'
+import { publicImageSrc } from '../utils/assetUrl'
 import {
   Heart,
   ShoppingCart,
@@ -99,7 +100,7 @@ const Favorites = () => {
                       </div>
                     ) : (
                       <img
-                        src={product.image}
+                        src={publicImageSrc(product.image)}
                         alt={product.name}
                         className="h-full w-full object-contain object-center relative z-0"
                         onError={() =>

@@ -5,6 +5,7 @@ import { useFavorites } from '../contexts/FavoritesContext'
 import { useNotifications } from '../contexts/NotificationContext'
 import { useReviews } from '../contexts/ReviewsContext'
 import ProductIcon from './ProductIcon'
+import { publicImageSrc } from '../utils/assetUrl'
 import ProductReviewsPanel from './ProductReviewsPanel'
 import { 
   X, 
@@ -123,7 +124,7 @@ const ProductModal = ({ product, isOpen, onClose }) => {
                       )}
                       {product.image && !imageError ? (
                         <img
-                          src={product.image}
+                          src={publicImageSrc(product.image)}
                           alt=""
                           className="relative z-0 h-full w-full object-contain object-center"
                           onError={() => setImageError(true)}

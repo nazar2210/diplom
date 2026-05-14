@@ -17,6 +17,94 @@ import {
   CheckCircle,
   Eye
 } from 'lucide-react'
+import { assetUrl, publicImageSrc } from '../utils/assetUrl'
+
+const mockProducts = [
+  {
+    id: 1,
+    name: 'Медицинский кислород 10л',
+    category: 'medical',
+    price: 7500,
+    originalPrice: 8500,
+    rating: 4.8,
+    reviews: 124,
+    image: assetUrl('medical-oxygen-10l-promo.png'),
+    description: 'Высококачественный медицинский кислород 99.5% чистоты',
+    features: ['99.5% чистоты', 'Медицинский класс', 'Быстрая доставка', 'Сертификация'],
+    inStock: true,
+    isNew: true
+  },
+  {
+    id: 2,
+    name: 'Промышленный кислород 40л',
+    category: 'industrial',
+    price: 15000,
+    originalPrice: 17000,
+    rating: 4.6,
+    reviews: 89,
+    image: assetUrl('industrial-oxygen.jpg'),
+    description: 'Промышленный кислород для производственных нужд',
+    features: ['99.2% чистоты', 'Промышленный класс', 'Большой объем', 'Экономичный'],
+    inStock: true,
+    isNew: false
+  },
+  {
+    id: 3,
+    name: 'Портативный баллон 5л',
+    category: 'portable',
+    price: 4500,
+    originalPrice: 5000,
+    rating: 4.9,
+    reviews: 67,
+    image: assetUrl('portable-tank.jpg'),
+    description: 'Компактный портативный баллон для мобильного использования',
+    features: ['Компактный', 'Легкий', 'Удобный', 'Портативный'],
+    inStock: true,
+    isNew: true
+  },
+  {
+    id: 4,
+    name: 'Медицинский кислород 20л',
+    category: 'medical',
+    price: 12000,
+    originalPrice: 14000,
+    rating: 4.7,
+    reviews: 156,
+    image: assetUrl('medical-oxygen.jpg'),
+    description: 'Увеличенный объем медицинского кислорода',
+    features: ['99.5% чистоты', 'Большой объем', 'Медицинский класс', 'Долгосрочное хранение'],
+    inStock: true,
+    isNew: false
+  },
+  {
+    id: 5,
+    name: 'Промышленный кислород 80л',
+    category: 'industrial',
+    price: 28000,
+    originalPrice: 32000,
+    rating: 4.5,
+    reviews: 43,
+    image: assetUrl('industrial-oxygen.jpg'),
+    description: 'Большой промышленный баллон для крупных производств',
+    features: ['99.2% чистоты', 'Максимальный объем', 'Промышленный класс', 'Экономичный'],
+    inStock: false,
+    isNew: false
+  },
+  {
+    id: 6,
+    name: 'Регулятор давления',
+    category: 'equipment',
+    price: 3500,
+    originalPrice: 4000,
+    rating: 4.8,
+    reviews: 92,
+    image: assetUrl('industrial-oxygen.jpg'),
+    description: 'Профессиональный регулятор давления для кислородных баллонов',
+    features: ['Точная регулировка', 'Прочный корпус', 'Профессиональный', 'Долговечный'],
+    inStock: true,
+    isNew: true
+  }
+]
 
 const Catalog = () => {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -50,93 +138,6 @@ const Catalog = () => {
     { id: 'industrial', name: 'Промышленный кислород' },
     { id: 'portable', name: 'Портативные баллоны' },
     { id: 'equipment', name: 'Оборудование' }
-  ]
-
-  const mockProducts = [
-    {
-      id: 1,
-      name: 'Медицинский кислород 10л',
-      category: 'medical',
-      price: 7500,
-      originalPrice: 8500,
-      rating: 4.8,
-      reviews: 124,
-      image: '/medical-oxygen-10l-promo.png',
-      description: 'Высококачественный медицинский кислород 99.5% чистоты',
-      features: ['99.5% чистоты', 'Медицинский класс', 'Быстрая доставка', 'Сертификация'],
-      inStock: true,
-      isNew: true
-    },
-    {
-      id: 2,
-      name: 'Промышленный кислород 40л',
-      category: 'industrial',
-      price: 15000,
-      originalPrice: 17000,
-      rating: 4.6,
-      reviews: 89,
-      image: '/industrial-oxygen.jpg',
-      description: 'Промышленный кислород для производственных нужд',
-      features: ['99.2% чистоты', 'Промышленный класс', 'Большой объем', 'Экономичный'],
-      inStock: true,
-      isNew: false
-    },
-    {
-      id: 3,
-      name: 'Портативный баллон 5л',
-      category: 'portable',
-      price: 4500,
-      originalPrice: 5000,
-      rating: 4.9,
-      reviews: 67,
-      image: '/portable-tank.jpg',
-      description: 'Компактный портативный баллон для мобильного использования',
-      features: ['Компактный', 'Легкий', 'Удобный', 'Портативный'],
-      inStock: true,
-      isNew: true
-    },
-    {
-      id: 4,
-      name: 'Медицинский кислород 20л',
-      category: 'medical',
-      price: 12000,
-      originalPrice: 14000,
-      rating: 4.7,
-      reviews: 156,
-      image: '/medical-oxygen.jpg',
-      description: 'Увеличенный объем медицинского кислорода',
-      features: ['99.5% чистоты', 'Большой объем', 'Медицинский класс', 'Долгосрочное хранение'],
-      inStock: true,
-      isNew: false
-    },
-    {
-      id: 5,
-      name: 'Промышленный кислород 80л',
-      category: 'industrial',
-      price: 28000,
-      originalPrice: 32000,
-      rating: 4.5,
-      reviews: 43,
-      image: '/industrial-oxygen.jpg',
-      description: 'Большой промышленный баллон для крупных производств',
-      features: ['99.2% чистоты', 'Максимальный объем', 'Промышленный класс', 'Экономичный'],
-      inStock: false,
-      isNew: false
-    },
-    {
-      id: 6,
-      name: 'Регулятор давления',
-      category: 'equipment',
-      price: 3500,
-      originalPrice: 4000,
-      rating: 4.8,
-      reviews: 92,
-      image: '/industrial-oxygen.jpg',
-      description: 'Профессиональный регулятор давления для кислородных баллонов',
-      features: ['Точная регулировка', 'Прочный корпус', 'Профессиональный', 'Долговечный'],
-      inStock: true,
-      isNew: true
-    }
   ]
 
   useEffect(() => {
@@ -399,7 +400,7 @@ const Catalog = () => {
                       </div>
                     ) : (
                       <img
-                        src={product.image}
+                        src={publicImageSrc(product.image)}
                         alt={product.name}
                         className="h-full w-full object-contain object-center transition-transform duration-300 group-hover:scale-[1.03] pointer-events-none select-none"
                         onLoad={() => handleImageLoad(product.id)}

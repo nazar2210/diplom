@@ -5,6 +5,7 @@ import React, {
   useEffect,
   useCallback
 } from 'react'
+import { assetUrl } from '../utils/assetUrl'
 
 const AuthContext = createContext()
 
@@ -48,7 +49,7 @@ export const AuthProvider = ({ children }) => {
                 name: 'Баллон кислорода 10л',
                 quantity: 2,
                 price: 7500,
-                image: '/medical-oxygen-10l-promo.png',
+                image: assetUrl('medical-oxygen-10l-promo.png'),
                 category: 'medical'
               }
             ]

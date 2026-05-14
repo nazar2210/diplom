@@ -5,6 +5,7 @@ import { useFavorites } from '../contexts/FavoritesContext'
 import { useCart } from '../contexts/CartContext'
 import { useNotifications } from '../contexts/NotificationContext'
 import ProductIcon from './ProductIcon'
+import { publicImageSrc } from '../utils/assetUrl'
 import { X, Heart, ShoppingCart, Trash2, ExternalLink } from 'lucide-react'
 
 const FavoritesModal = () => {
@@ -131,7 +132,7 @@ const FavoritesModal = () => {
                       <div className="w-16 h-16 bg-gradient-to-br from-primary-100 to-oxygen-100 dark:from-primary-900/20 dark:to-oxygen-900/20 rounded-lg flex items-center justify-center shrink-0 overflow-hidden">
                         {item.image ? (
                           <img
-                            src={item.image}
+                            src={publicImageSrc(item.image)}
                             alt=""
                             className="w-full h-full object-cover"
                           />

@@ -1,9 +1,18 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
+// GitHub Pages: сайт в /RepoName/ — в CI задаётся VITE_BASE; локально ./
+const viteBase = process.env.VITE_BASE
+const base =
+  viteBase && viteBase !== '' && viteBase !== 'false'
+    ? viteBase.endsWith('/')
+      ? viteBase
+      : `${viteBase}/`
+    : './'
+
 export default defineConfig({
   plugins: [react()],
-  base: './', // Используем относительные пути для HashRouter
+  base,
   test: {
     environment: 'jsdom',
     setupFiles: './src/test/setup.js'
