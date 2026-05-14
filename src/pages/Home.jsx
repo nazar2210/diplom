@@ -15,8 +15,7 @@ import {
   Shield, 
   Truck, 
   Award, 
-  Users,
-  CheckCircle
+  Users
 } from 'lucide-react'
 
 const heroLetterVariants = {
@@ -556,55 +555,36 @@ const Home = () => {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-1 sm:gap-2">
             {products.map((product, index) => (
               <motion.div
                 key={index}
-                className="bg-white dark:bg-slate-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300"
-                initial={{ opacity: 0, y: 20 }}
+                className="overflow-hidden rounded-lg ring-1 ring-black/5 dark:ring-white/10"
+                initial={{ opacity: 0, y: 12 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
+                transition={{ duration: 0.5, delay: index * 0.06 }}
                 viewport={{ once: true }}
-                whileHover={{ scale: 1.02 }}
+                whileHover={{ scale: 1.01 }}
               >
-                <div className="h-64 sm:h-72 bg-white dark:bg-white flex items-center justify-center p-0 sm:p-0.5">
+                <Link
+                  to="/catalog"
+                  className="relative block aspect-[4/5] w-full bg-white dark:bg-slate-900"
+                >
                   {product.image?.startsWith('/') && !product.image.includes('placeholder') ? (
                     <img
                       src={publicImageSrc(product.image)}
                       alt=""
-                      className="h-full w-full object-contain object-center"
+                      className="absolute inset-0 h-full w-full object-cover object-center"
                     />
                   ) : (
-                    <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-primary-100 to-oxygen-100 dark:from-slate-800 dark:to-slate-900">
+                    <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-primary-100 to-oxygen-100 dark:from-slate-800 dark:to-slate-900">
                       <ProductIcon
                         category={product.category || 'medical'}
-                        className="w-20 h-20 sm:w-24 sm:h-24"
+                        className="w-16 h-16 sm:w-20 sm:h-20"
                       />
                     </div>
                   )}
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                    {product.name}
-                  </h3>
-                  <div className="text-2xl font-bold text-primary-600 dark:text-primary-400 mb-4">
-                    {product.price}
-                  </div>
-                  <ul className="space-y-2 mb-6">
-                    {product.features.map((feature, i) => (
-                      <li key={i} className="flex items-center text-gray-600 dark:text-gray-300">
-                        <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-                  <Link
-                    to="/catalog"
-                    className="w-full bg-primary-600 hover:bg-primary-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200 text-center block"
-                  >
-                    Подробнее
-                  </Link>
-                </div>
+                </Link>
               </motion.div>
             ))}
           </div>
