@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useCart } from '../contexts/CartContext'
 import { useFavorites } from '../contexts/FavoritesContext'
 import { useNotifications } from '../contexts/NotificationContext'
 import { useReviews } from '../contexts/ReviewsContext'
@@ -10,7 +11,11 @@ import { useSearchParams } from 'react-router-dom'
 import { 
   Filter, 
   Search, 
-  Heart
+  ShoppingCart, 
+  Heart,
+  Star,
+  CheckCircle,
+  Eye
 } from 'lucide-react'
 import { assetUrl, publicImageSrc } from '../utils/assetUrl'
 
@@ -114,6 +119,7 @@ const Catalog = () => {
   const [isProductModalOpen, setIsProductModalOpen] = useState(false)
   const [imageStates, setImageStates] = useState({})
   const [isLoading, setIsLoading] = useState(true)
+  const { addToCart } = useCart()
   const { isFavorite, toggleFavorite } = useFavorites()
   const { success } = useNotifications()
   const { getReviewStats } = useReviews()
@@ -200,6 +206,13 @@ const Catalog = () => {
 
     setFilteredProducts(filtered)
   }, [products, selectedCategory, searchTerm, priceRange, sortBy, getReviewStats])
+
+  const handleAddToCart = (product) => {
+    addToCart(product)
+    success(`${product.name} добавлен в корзину!`, {
+      description: `Цена: ${product.price.toLocaleString()} ₽`
+    })
+  }
 
   const handleToggleFavorite = (product, e) => {
     e?.preventDefault?.()
@@ -358,53 +371,51 @@ const Catalog = () => {
         {isLoading ? (
           <SkeletonGrid count={6} />
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1 sm:gap-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <AnimatePresence>
-              {filteredProducts.map((product, index) => (
+              {filteredProducts.map((product, index) => {
+                const rev = getReviewStats(product.id)
+                const ratingShown = rev.count > 0 ? rev.average : product.rating
+                const reviewsShown = rev.count > 0 ? rev.count : product.reviews
+                return (
               <motion.div
                 key={product.id}
-                role="button"
-                tabIndex={0}
-                initial={{ opacity: 0, scale: 0.96 }}
+                initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.96 }}
-                transition={{ duration: 0.25, delay: index * 0.04 }}
-                className="group cursor-pointer overflow-hidden rounded-lg ring-1 ring-black/5 transition-transform duration-200 hover:ring-primary-500/30 dark:bg-slate-900 dark:ring-white/10"
-                onClick={() => openProductModal(product)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault()
-                    openProductModal(product)
-                  }
-                }}
+                exit={{ opacity: 0, scale: 0.8 }}
+                transition={{ duration: 0.3, delay: index * 0.05 }}
+                className="bg-white dark:bg-slate-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 group"
               >
-                <div className="relative aspect-square w-full bg-white dark:bg-white overflow-hidden isolate">
+                {/* Превью: белый фон под фото + без вертикальных полос; чуть выше блок */}
+                <div className="relative h-64 sm:h-80 lg:h-96 bg-white dark:bg-white overflow-hidden isolate">
                   {product.isNew && (
-                    <div className="absolute top-2 left-2 bg-green-500 text-white px-2 py-0.5 rounded-full text-[10px] font-semibold z-20 pointer-events-none">
+                    <div className="absolute top-3 left-3 bg-green-500 text-white px-2 py-1 rounded-full text-xs font-semibold z-20 pointer-events-none">
                       Новинка
                     </div>
                   )}
-                  {imageStates[product.id]?.error ? (
-                    <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-primary-50 to-oxygen-50 dark:from-slate-800 dark:to-slate-900 pointer-events-none">
-                      <ProductIcon category={product.category} className="w-20 h-20 sm:w-24 sm:h-24 opacity-60" />
-                    </div>
-                  ) : (
-                    <img
-                      src={publicImageSrc(product.image)}
-                      alt={product.name}
-                      className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-300 group-hover:scale-[1.03] pointer-events-none select-none"
-                      onLoad={() => handleImageLoad(product.id)}
-                      onError={() => handleImageError(product.id)}
-                    />
-                  )}
+                  <div className="absolute inset-0 z-0 flex items-center justify-center p-0 sm:p-0.5">
+                    {imageStates[product.id]?.error ? (
+                      <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-primary-50 to-oxygen-50 dark:from-slate-800 dark:to-slate-900 pointer-events-none">
+                        <ProductIcon category={product.category} className="w-24 h-24 sm:w-28 sm:h-28 opacity-60" />
+                      </div>
+                    ) : (
+                      <img
+                        src={publicImageSrc(product.image)}
+                        alt={product.name}
+                        className="h-full w-full object-contain object-center transition-transform duration-300 group-hover:scale-[1.03] pointer-events-none select-none"
+                        onLoad={() => handleImageLoad(product.id)}
+                        onError={() => handleImageError(product.id)}
+                      />
+                    )}
+                  </div>
                   <button
                     type="button"
                     onClick={(e) => handleToggleFavorite(product, e)}
-                    className="absolute top-2 right-2 p-1.5 bg-white/95 dark:bg-white/95 rounded-full hover:bg-gray-50 transition-colors duration-200 z-30 shadow-sm ring-1 ring-black/5"
+                    className="absolute top-3 right-3 p-2 bg-white/95 dark:bg-white/95 rounded-full hover:bg-gray-50 transition-colors duration-200 z-30 shadow-sm ring-1 ring-black/5"
                     aria-label={isFavorite(product.id) ? 'Убрать из избранного' : 'В избранное'}
                   >
                     <Heart
-                      className={`w-4 h-4 transition-colors ${
+                      className={`w-5 h-5 transition-colors ${
                         isFavorite(product.id)
                           ? 'text-red-500 fill-red-500'
                           : 'text-gray-600 dark:text-gray-300'
@@ -412,8 +423,109 @@ const Catalog = () => {
                     />
                   </button>
                 </div>
+
+                {/* Product Info */}
+                <div className="p-6">
+                  <div className="flex items-center justify-between mb-2">
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-200">
+                      {product.name}
+                    </h3>
+                    <div className="flex items-center">
+                      <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                      <span className="text-sm text-gray-600 dark:text-gray-300 ml-1">
+                        {ratingShown} ({reviewsShown})
+                      </span>
+                    </div>
+                  </div>
+
+                  <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-2">
+                    {product.description}
+                  </p>
+
+                  {/* Features */}
+                  <div className="mb-4">
+                    <div className="flex flex-wrap gap-1">
+                      {product.features.slice(0, 2).map((feature, i) => (
+                        <span
+                          key={i}
+                          className="text-xs bg-primary-100 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400 px-2 py-1 rounded-full"
+                        >
+                          {feature}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Price */}
+                  <div className="flex items-center justify-between mb-4">
+                    <div>
+                      <div className="text-2xl font-bold text-primary-600 dark:text-primary-400">
+                        {product.price.toLocaleString()} ₽
+                      </div>
+                      {product.originalPrice > product.price && (
+                        <div className="text-sm text-gray-500 line-through">
+                          {product.originalPrice.toLocaleString()} ₽
+                        </div>
+                      )}
+                    </div>
+                    <div className="text-right">
+                      {product.inStock ? (
+                        <div className="flex items-center text-green-600 dark:text-green-400 text-sm">
+                          <CheckCircle className="w-4 h-4 mr-1" />
+                          В наличии
+                        </div>
+                      ) : (
+                        <div className="text-red-600 dark:text-red-400 text-sm">
+                          Нет в наличии
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Actions */}
+                  <div className="flex gap-2">
+                    <motion.button
+                      onClick={() => openProductModal(product)}
+                      className="flex-1 bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 text-gray-700 dark:text-gray-300 font-semibold py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center"
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <Eye className="w-4 h-4 mr-2" />
+                      Подробнее
+                    </motion.button>
+                    <motion.button
+                      onClick={() => handleAddToCart(product)}
+                      disabled={!product.inStock}
+                      className="flex-1 bg-primary-600 hover:bg-primary-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center"
+                      whileHover={{ scale: product.inStock ? 1.02 : 1 }}
+                      whileTap={{ scale: product.inStock ? 0.98 : 1 }}
+                    >
+                      <ShoppingCart className="w-4 h-4 mr-2" />
+                      В корзину
+                    </motion.button>
+                    <button
+                      type="button"
+                      onClick={(e) => handleToggleFavorite(product, e)}
+                      className={`px-4 py-3 border rounded-lg transition-colors duration-200 shrink-0 ${
+                        isFavorite(product.id)
+                          ? 'border-red-400 bg-red-50 dark:bg-red-900/20 dark:border-red-500'
+                          : 'border-gray-300 dark:border-gray-600 hover:border-primary-600 dark:hover:border-primary-400'
+                      }`}
+                      aria-label={isFavorite(product.id) ? 'Убрать из избранного' : 'В избранное'}
+                    >
+                      <Heart
+                        className={`w-4 h-4 ${
+                          isFavorite(product.id)
+                            ? 'text-red-500 fill-red-500'
+                            : 'text-gray-600 dark:text-gray-300'
+                        }`}
+                      />
+                    </button>
+                  </div>
+                </div>
               </motion.div>
-            ))}
+              )
+            })}
           </AnimatePresence>
         </div>
         )}
