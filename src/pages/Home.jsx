@@ -8,6 +8,7 @@ import {
 import { Link } from 'react-router-dom'
 import clsx from 'clsx'
 import ProductIcon from '../components/ProductIcon'
+import CursorBubbleTrail from '../components/CursorBubbleTrail'
 import { assetUrl, publicImageSrc } from '../utils/assetUrl'
 import { 
   ArrowRight, 
@@ -329,6 +330,8 @@ function HeroOxygenTank() {
 }
 
 const Home = () => {
+  const heroSectionRef = useRef(null)
+
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])
@@ -406,9 +409,12 @@ const Home = () => {
   return (
     <div className="pt-16">
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <section
+        ref={heroSectionRef}
+        className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      >
         {/* Animated Background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-primary-50 via-white to-oxygen-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+        <div className="absolute inset-0 z-0 bg-gradient-to-br from-primary-50 via-white to-oxygen-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
           {/* Floating Bubbles */}
           {[...Array(20)].map((_, i) => (
             <motion.div
@@ -432,6 +438,8 @@ const Home = () => {
             />
           ))}
         </div>
+
+        <CursorBubbleTrail containerRef={heroSectionRef} />
 
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">

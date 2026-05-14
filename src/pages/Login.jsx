@@ -54,15 +54,6 @@ const Login = () => {
     }
   }
 
-  const demoCredentials = {
-    email: 'admin@oxygenstore.ru',
-    password: 'admin123'
-  }
-
-  const fillDemoCredentials = () => {
-    setFormData(demoCredentials)
-  }
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-oxygen-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
@@ -88,43 +79,12 @@ const Login = () => {
           </p>
         </motion.div>
 
-        {/* Demo Credentials Banner */}
-        <motion.div
-          className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
-          <div className="flex items-start">
-            <div className="flex-shrink-0">
-              <CheckCircle className="h-5 w-5 text-blue-400" />
-            </div>
-            <div className="ml-3 flex-1">
-              <h3 className="text-sm font-medium text-blue-800 dark:text-blue-200">
-                Демо-аккаунт
-              </h3>
-              <div className="mt-1 text-sm text-blue-700 dark:text-blue-300">
-                <p>Email: admin@oxygenstore.ru</p>
-                <p>Пароль: admin123</p>
-              </div>
-              <div className="mt-2">
-                <button
-                  onClick={fillDemoCredentials}
-                  className="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 font-medium"
-                >
-                  Заполнить автоматически →
-                </button>
-              </div>
-            </div>
-          </div>
-        </motion.div>
-
         {/* Login Form */}
         <motion.div
           className="bg-white dark:bg-slate-800 rounded-xl shadow-lg p-8"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
+          transition={{ duration: 0.6, delay: 0.15 }}
         >
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Email Field */}
