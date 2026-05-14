@@ -115,7 +115,7 @@ const ProductModal = ({ product, isOpen, onClose }) => {
                   {/* Left Column - Image and Basic Info */}
                   <div>
                     {/* Product Image */}
-                    <div className="relative h-72 sm:h-80 bg-gradient-to-br from-primary-100 to-oxygen-100 dark:from-primary-900/20 dark:to-oxygen-900/20 rounded-xl flex items-center justify-center mb-6 overflow-hidden p-4 sm:p-6">
+                    <div className="relative h-80 sm:h-96 bg-white dark:bg-white rounded-xl flex items-center justify-center mb-6 overflow-hidden p-0 sm:p-0.5">
                       {product.isNew && (
                         <div className="absolute top-4 left-4 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold z-20">
                           Новинка
@@ -125,11 +125,13 @@ const ProductModal = ({ product, isOpen, onClose }) => {
                         <img
                           src={product.image}
                           alt=""
-                          className="relative z-0 max-h-full max-w-full object-contain object-center"
+                          className="relative z-0 h-full w-full object-contain object-center"
                           onError={() => setImageError(true)}
                         />
                       ) : (
-                        <ProductIcon category={product.category} className="relative z-0 w-28 h-28 sm:w-32 sm:h-32" />
+                        <div className="relative z-0 flex h-full w-full items-center justify-center bg-gradient-to-br from-primary-50 to-oxygen-50 dark:from-slate-800 dark:to-slate-900">
+                          <ProductIcon category={product.category} className="w-28 h-28 sm:w-32 sm:h-32" />
+                        </div>
                       )}
                     </div>
 

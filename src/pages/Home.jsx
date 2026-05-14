@@ -375,18 +375,21 @@ const Home = () => {
     {
       name: 'Медицинский кислород 10л',
       price: '7,500 ₽',
-      image: '/api/placeholder/300/200',
+      category: 'medical',
+      image: '/medical-oxygen-10l-promo.png',
       features: ['99.5% чистоты', 'Медицинский класс', 'Быстрая доставка']
     },
     {
       name: 'Промышленный кислород 40л',
       price: '15,000 ₽',
+      category: 'industrial',
       image: '/api/placeholder/300/200',
       features: ['99.2% чистоты', 'Промышленный класс', 'Большой объем']
     },
     {
       name: 'Портативный баллон 5л',
       price: '4,500 ₽',
+      category: 'portable',
       image: '/api/placeholder/300/200',
       features: ['Компактный', 'Легкий', 'Удобный']
     }
@@ -555,8 +558,21 @@ const Home = () => {
                 viewport={{ once: true }}
                 whileHover={{ scale: 1.02 }}
               >
-                <div className="h-60 sm:h-64 bg-gradient-to-br from-primary-100 to-oxygen-100 dark:from-primary-900/20 dark:to-oxygen-900/20 flex items-center justify-center">
-                  <ProductIcon category="medical" className="w-20 h-20 sm:w-24 sm:h-24" />
+                <div className="h-64 sm:h-72 bg-white dark:bg-white flex items-center justify-center p-0 sm:p-0.5">
+                  {product.image?.startsWith('/') && !product.image.includes('placeholder') ? (
+                    <img
+                      src={product.image}
+                      alt=""
+                      className="h-full w-full object-contain object-center"
+                    />
+                  ) : (
+                    <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-primary-100 to-oxygen-100 dark:from-slate-800 dark:to-slate-900">
+                      <ProductIcon
+                        category={product.category || 'medical'}
+                        className="w-20 h-20 sm:w-24 sm:h-24"
+                      />
+                    </div>
+                  )}
                 </div>
                 <div className="p-6">
                   <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">

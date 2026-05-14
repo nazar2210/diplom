@@ -61,7 +61,7 @@ const Catalog = () => {
       originalPrice: 8500,
       rating: 4.8,
       reviews: 124,
-      image: '/medical-oxygen.jpg',
+      image: '/medical-oxygen-10l-promo.png',
       description: 'Высококачественный медицинский кислород 99.5% чистоты',
       features: ['99.5% чистоты', 'Медицинский класс', 'Быстрая доставка', 'Сертификация'],
       inStock: true,
@@ -385,23 +385,23 @@ const Catalog = () => {
                 transition={{ duration: 0.3, delay: index * 0.05 }}
                 className="bg-white dark:bg-slate-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 group"
               >
-                {/* Product Image — выше блок и object-contain, чтобы баллон был виден целиком */}
-                <div className="relative h-60 sm:h-72 lg:h-80 bg-gradient-to-br from-primary-100 to-oxygen-100 dark:from-primary-900/20 dark:to-oxygen-900/20 overflow-hidden isolate">
+                {/* Превью: белый фон под фото + без вертикальных полос; чуть выше блок */}
+                <div className="relative h-64 sm:h-80 lg:h-96 bg-white dark:bg-white overflow-hidden isolate">
                   {product.isNew && (
-                    <div className="absolute top-4 left-4 bg-green-500 text-white px-2 py-1 rounded-full text-xs font-semibold z-20 pointer-events-none">
+                    <div className="absolute top-3 left-3 bg-green-500 text-white px-2 py-1 rounded-full text-xs font-semibold z-20 pointer-events-none">
                       Новинка
                     </div>
                   )}
-                  <div className="absolute inset-0 z-0 flex items-center justify-center p-4 sm:p-5">
+                  <div className="absolute inset-0 z-0 flex items-center justify-center p-0 sm:p-0.5">
                     {imageStates[product.id]?.error ? (
-                      <div className="flex items-center justify-center pointer-events-none">
+                      <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-primary-50 to-oxygen-50 dark:from-slate-800 dark:to-slate-900 pointer-events-none">
                         <ProductIcon category={product.category} className="w-24 h-24 sm:w-28 sm:h-28 opacity-60" />
                       </div>
                     ) : (
                       <img
                         src={product.image}
                         alt={product.name}
-                        className="max-h-full max-w-full w-auto h-auto object-contain object-center transition-transform duration-300 group-hover:scale-[1.03] pointer-events-none select-none"
+                        className="h-full w-full object-contain object-center transition-transform duration-300 group-hover:scale-[1.03] pointer-events-none select-none"
                         onLoad={() => handleImageLoad(product.id)}
                         onError={() => handleImageError(product.id)}
                       />
@@ -410,7 +410,7 @@ const Catalog = () => {
                   <button
                     type="button"
                     onClick={(e) => handleToggleFavorite(product, e)}
-                    className="absolute top-4 right-4 p-2 bg-white/90 dark:bg-slate-800/90 rounded-full hover:bg-white dark:hover:bg-slate-700 transition-colors duration-200 z-30 shadow-sm"
+                    className="absolute top-3 right-3 p-2 bg-white/95 dark:bg-white/95 rounded-full hover:bg-gray-50 transition-colors duration-200 z-30 shadow-sm ring-1 ring-black/5"
                     aria-label={isFavorite(product.id) ? 'Убрать из избранного' : 'В избранное'}
                   >
                     <Heart

@@ -92,14 +92,16 @@ const Favorites = () => {
                   transition={{ duration: 0.25, delay: index * 0.04 }}
                   className="bg-white dark:bg-slate-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300"
                 >
-                  <div className="relative h-60 sm:h-72 lg:h-80 bg-gradient-to-br from-primary-100 to-oxygen-100 dark:from-primary-900/20 dark:to-oxygen-900/20 overflow-hidden flex items-center justify-center p-4 sm:p-5">
+                  <div className="relative h-64 sm:h-80 lg:h-96 bg-white dark:bg-white overflow-hidden flex items-center justify-center p-0 sm:p-0.5">
                     {imageErrors[product.id] ? (
-                      <ProductIcon category={product.category} className="w-24 h-24 sm:w-28 sm:h-28 opacity-60" />
+                      <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-primary-50 to-oxygen-50 dark:from-slate-800 dark:to-slate-900">
+                        <ProductIcon category={product.category} className="w-24 h-24 sm:w-28 sm:h-28 opacity-60" />
+                      </div>
                     ) : (
                       <img
                         src={product.image}
                         alt={product.name}
-                        className="max-h-full max-w-full w-auto h-auto object-contain object-center relative z-0"
+                        className="h-full w-full object-contain object-center relative z-0"
                         onError={() =>
                           setImageErrors((prev) => ({ ...prev, [product.id]: true }))
                         }
@@ -111,7 +113,7 @@ const Favorites = () => {
                         removeFavorite(product.id)
                         success('Удалено из избранного')
                       }}
-                      className="absolute top-4 right-4 p-2 bg-white/90 dark:bg-slate-800/90 rounded-full hover:bg-red-50 dark:hover:bg-red-900/30 transition-colors z-30"
+                      className="absolute top-3 right-3 p-2 bg-white/95 rounded-full hover:bg-red-50 dark:hover:bg-red-50 transition-colors z-30 shadow-sm ring-1 ring-black/5"
                       aria-label="Удалить из избранного"
                     >
                       <Heart className="w-5 h-5 text-red-500 fill-red-500" />
