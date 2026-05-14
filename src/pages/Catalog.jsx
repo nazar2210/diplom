@@ -42,7 +42,7 @@ const mockProducts = [
     originalPrice: 17000,
     rating: 4.6,
     reviews: 89,
-    image: assetUrl('industrial-oxygen.jpg'),
+    image: assetUrl('oxygen-40l-promo.png'),
     description: 'Промышленный кислород для производственных нужд',
     features: ['99.2% чистоты', 'Промышленный класс', 'Большой объем', 'Экономичный'],
     inStock: true,

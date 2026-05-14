@@ -384,7 +384,7 @@ const Home = () => {
       name: 'Промышленный кислород 40л',
       price: '15,000 ₽',
       category: 'industrial',
-      image: '/api/placeholder/300/200',
+      image: assetUrl('oxygen-40l-promo.png'),
       features: ['99.2% чистоты', 'Промышленный класс', 'Большой объем']
     },
     {
