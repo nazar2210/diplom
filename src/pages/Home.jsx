@@ -85,17 +85,16 @@ function HeroOxygenTitle() {
 
   return (
     <motion.h1
-      className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 text-center lg:text-left leading-[1.2] [perspective:1100px] [transform-style:preserve-3d] hyphens-none"
+      className="text-[1.65rem] sm:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 text-center lg:text-left leading-[1.15] sm:leading-[1.2] [perspective:1100px] [transform-style:preserve-3d] hyphens-auto break-words"
       initial="hidden"
       animate="visible"
     >
-      {/* nowrap по строкам: буквы inline-block иначе рвутся посередине слова */}
-      <span className="inline-block max-w-full whitespace-nowrap align-baseline">
+      <span className="inline-block max-w-full align-baseline sm:whitespace-nowrap">
         {renderLetters(part1)}
         {renderLetters(part2)}
       </span>
-      <br />
-      <span className="inline-block max-w-full whitespace-nowrap align-baseline">
+      <br className="hidden sm:block" />
+      <span className="inline-block max-w-full align-baseline sm:whitespace-nowrap">
         {renderLetters(part3)}
       </span>
     </motion.h1>
@@ -453,7 +452,7 @@ const Home = () => {
               <HeroOxygenTitle />
               
               <motion.p
-                className="text-xl text-gray-600 dark:text-gray-300 mb-8 leading-relaxed"
+                className="text-base sm:text-lg lg:text-xl text-gray-600 dark:text-gray-300 mb-6 sm:mb-8 leading-relaxed px-1 sm:px-0"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.4 }}
@@ -470,14 +469,14 @@ const Home = () => {
               >
                 <Link
                   to="/catalog"
-                  className="inline-flex items-center px-8 py-4 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
+                  className="inline-flex items-center justify-center w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
                 >
                   Смотреть каталог
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </Link>
                 <Link
                   to="/contact"
-                  className="inline-flex items-center px-8 py-4 border-2 border-primary-600 text-primary-600 dark:text-primary-400 hover:bg-primary-600 hover:text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-105"
+                  className="inline-flex items-center justify-center w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 border-2 border-primary-600 text-primary-600 dark:text-primary-400 hover:bg-primary-600 hover:text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-105"
                 >
                   Связаться с нами
                 </Link>
