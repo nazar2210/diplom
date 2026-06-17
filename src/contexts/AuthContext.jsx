@@ -22,10 +22,13 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // Проверяем сохраненные данные пользователя
     const savedUser = localStorage.getItem('oxygen-store-user')
     if (savedUser) {
-      setUser(JSON.parse(savedUser))
+      const parsed = JSON.parse(savedUser)
+      if (parsed.email === 'admin@oxygenstore.ru') {
+        parsed.role = 'admin'
+      }
+      setUser(parsed)
     }
     setLoading(false)
   }, [])
@@ -71,6 +74,7 @@ export const AuthProvider = ({ children }) => {
           id: 1,
           email,
           name: 'Администратор',
+          role: 'admin',
           phone: '+7 (999) 123-45-67',
           address: 'г. Москва, ул. Примерная, д. 1',
           orders
@@ -129,9 +133,12 @@ export const AuthProvider = ({ children }) => {
     })
   }, [])
 
+  const isAdmin = user?.role === 'admin'
+
   const value = {
     user,
     loading,
+    isAdmin,
     login,
     register,
     logout,

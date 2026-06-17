@@ -2,6 +2,9 @@ import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
+import { useProducts } from '../contexts/ProductsContext'
+import { useNotifications } from '../contexts/NotificationContext'
+import ProductFormModal from '../components/ProductFormModal'
 import ProductIcon from '../components/ProductIcon'
 import { publicImageSrc } from '../utils/assetUrl'
 import { 
@@ -18,11 +21,16 @@ import {
   Clock,
   Truck,
   Star,
-  ShoppingCart
+  ShoppingCart,
+  Plus,
+  Shield
 } from 'lucide-react'
 
 const Profile = () => {
-  const { user, updateProfile } = useAuth()
+  const { user, updateProfile, isAdmin } = useAuth()
+  const { products, addProduct } = useProducts()
+  const { success } = useNotifications()
+  const [isAddProductOpen, setIsAddProductOpen] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
   const [editData, setEditData] = useState({
     name: user?.name || '',
@@ -100,6 +108,11 @@ const Profile = () => {
       currency: 'RUB',
       minimumFractionDigits: 0
     }).format(price)
+  }
+
+  const handleAddProduct = (payload) => {
+    addProduct(payload)
+    success('Товар добавлен в каталог', { description: payload.name })
   }
 
   return (
@@ -288,6 +301,43 @@ const Profile = () => {
                 )}
               </AnimatePresence>
             </div>
+
+            {isAdmin && (
+              <div className="bg-white dark:bg-slate-800 rounded-xl shadow-lg p-6 mt-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 bg-primary-100 dark:bg-primary-900/20 rounded-full flex items-center justify-center">
+                    <Shield className="w-5 h-5 text-primary-600 dark:text-primary-400" />
+                  </div>
+                  <div>
+                    <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+                      Панель администратора
+                    </h2>
+                    <p className="text-sm text-gray-600 dark:text-gray-300">
+                      {products.length} товаров в каталоге
+                    </p>
+                  </div>
+                </div>
+                <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
+                  Добавляйте новые товары здесь. Редактирование и удаление — в каталоге на карточках.
+                </p>
+                <motion.button
+                  type="button"
+                  onClick={() => setIsAddProductOpen(true)}
+                  className="w-full flex items-center justify-center gap-2 bg-primary-600 hover:bg-primary-700 text-white font-semibold py-3 px-4 rounded-lg"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <Plus className="w-5 h-5" />
+                  Добавить товар
+                </motion.button>
+                <Link
+                  to="/catalog"
+                  className="mt-3 block text-center text-sm text-primary-600 dark:text-primary-400 hover:underline"
+                >
+                  Перейти в каталог для редактирования
+                </Link>
+              </div>
+            )}
           </motion.div>
 
           {/* Orders History */}
@@ -490,6 +540,13 @@ const Profile = () => {
           </div>
         </motion.div>
       </div>
+
+      <ProductFormModal
+        isOpen={isAddProductOpen}
+        onClose={() => setIsAddProductOpen(false)}
+        onSubmit={handleAddProduct}
+        mode="add"
+      />
     </div>
   )
 }

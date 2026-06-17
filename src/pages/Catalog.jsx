@@ -4,7 +4,10 @@ import { useCart } from '../contexts/CartContext'
 import { useFavorites } from '../contexts/FavoritesContext'
 import { useNotifications } from '../contexts/NotificationContext'
 import { useReviews } from '../contexts/ReviewsContext'
+import { useProducts } from '../contexts/ProductsContext'
+import { useAuth } from '../contexts/AuthContext'
 import ProductModal from '../components/ProductModal'
+import ProductFormModal from '../components/ProductFormModal'
 import ProductIcon from '../components/ProductIcon'
 import { SkeletonGrid } from '../components/SkeletonLoader'
 import { useSearchParams } from 'react-router-dom'
@@ -15,100 +18,16 @@ import {
   Heart,
   Star,
   CheckCircle,
-  Eye
+  Eye,
+  Pencil,
+  Trash2
 } from 'lucide-react'
-import { assetUrl, publicImageSrc } from '../utils/assetUrl'
-
-const mockProducts = [
-  {
-    id: 1,
-    name: 'Медицинский кислород 10л',
-    category: 'medical',
-    price: 7500,
-    originalPrice: 8500,
-    rating: 4.8,
-    reviews: 124,
-    image: assetUrl('medical-oxygen-10l-promo.png'),
-    description: 'Высококачественный медицинский кислород 99.5% чистоты',
-    features: ['99.5% чистоты', 'Медицинский класс', 'Быстрая доставка', 'Сертификация'],
-    inStock: true,
-    isNew: true
-  },
-  {
-    id: 2,
-    name: 'Промышленный кислород 40л',
-    category: 'industrial',
-    price: 15000,
-    originalPrice: 17000,
-    rating: 4.6,
-    reviews: 89,
-    image: assetUrl('oxygen-40l-promo.png'),
-    description: 'Промышленный кислород для производственных нужд',
-    features: ['99.2% чистоты', 'Промышленный класс', 'Большой объем', 'Экономичный'],
-    inStock: true,
-    isNew: false
-  },
-  {
-    id: 3,
-    name: 'Портативный баллон 5л',
-    category: 'portable',
-    price: 4500,
-    originalPrice: 5000,
-    rating: 4.9,
-    reviews: 67,
-    image: assetUrl('portable-oxygen-5l-promo.png'),
-    description: 'Компактный портативный баллон для мобильного использования',
-    features: ['Компактный', 'Легкий', 'Удобный', 'Портативный'],
-    inStock: true,
-    isNew: true
-  },
-  {
-    id: 4,
-    name: 'Медицинский кислород 20л',
-    category: 'medical',
-    price: 12000,
-    originalPrice: 14000,
-    rating: 4.7,
-    reviews: 156,
-    image: assetUrl('medical-oxygen-20l-promo.png'),
-    description: 'Увеличенный объем медицинского кислорода',
-    features: ['99.5% чистоты', 'Большой объем', 'Медицинский класс', 'Долгосрочное хранение'],
-    inStock: true,
-    isNew: false
-  },
-  {
-    id: 5,
-    name: 'Промышленный кислород 80л',
-    category: 'industrial',
-    price: 28000,
-    originalPrice: 32000,
-    rating: 4.5,
-    reviews: 43,
-    image: assetUrl('oxygen-80l-promo.png'),
-    description: 'Большой промышленный баллон для крупных производств',
-    features: ['99.2% чистоты', 'Максимальный объем', 'Промышленный класс', 'Экономичный'],
-    inStock: false,
-    isNew: false
-  },
-  {
-    id: 6,
-    name: 'Регулятор давления',
-    category: 'equipment',
-    price: 3500,
-    originalPrice: 4000,
-    rating: 4.8,
-    reviews: 92,
-    image: assetUrl('pressure-regulator-promo.png'),
-    description: 'Профессиональный регулятор давления для кислородных баллонов',
-    features: ['Точная регулировка', 'Прочный корпус', 'Профессиональный', 'Долговечный'],
-    inStock: true,
-    isNew: true
-  }
-]
+import { publicImageSrc } from '../utils/assetUrl'
 
 const Catalog = () => {
-  const [searchParams, setSearchParams] = useSearchParams()
-  const [products, setProducts] = useState([])
+  const [searchParams] = useSearchParams()
+  const { products, loading: productsLoading, updateProduct, deleteProduct } = useProducts()
+  const { isAdmin } = useAuth()
   const [filteredProducts, setFilteredProducts] = useState([])
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('all')
@@ -117,12 +36,15 @@ const Catalog = () => {
   const [sortBy, setSortBy] = useState('name')
   const [selectedProduct, setSelectedProduct] = useState(null)
   const [isProductModalOpen, setIsProductModalOpen] = useState(false)
+  const [editingProduct, setEditingProduct] = useState(null)
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [imageStates, setImageStates] = useState({})
-  const [isLoading, setIsLoading] = useState(true)
   const { addToCart } = useCart()
   const { isFavorite, toggleFavorite } = useFavorites()
   const { success } = useNotifications()
   const { getReviewStats } = useReviews()
+
+  const isLoading = productsLoading
 
   const handleImageLoad = (productId) => {
     setImageStates(prev => ({ ...prev, [productId]: { loaded: true, error: false } }))
@@ -140,20 +62,6 @@ const Catalog = () => {
     { id: 'equipment', name: 'Оборудование' }
   ]
 
-  useEffect(() => {
-    // Имитация загрузки данных
-    const loadProducts = async () => {
-      setIsLoading(true)
-      await new Promise(resolve => setTimeout(resolve, 1500)) // Имитация API запроса
-      setProducts(mockProducts)
-      setFilteredProducts(mockProducts)
-      setIsLoading(false)
-    }
-    
-    loadProducts()
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
-
-  // Обработка URL параметров
   useEffect(() => {
     const category = searchParams.get('category')
     if (category && ['medical', 'industrial', 'portable', 'equipment'].includes(category)) {
@@ -235,6 +143,32 @@ const Catalog = () => {
     setSelectedProduct(null)
   }
 
+  const openEditModal = (product, e) => {
+    e?.preventDefault?.()
+    e?.stopPropagation?.()
+    setEditingProduct(product)
+    setIsEditModalOpen(true)
+  }
+
+  const closeEditModal = () => {
+    setIsEditModalOpen(false)
+    setEditingProduct(null)
+  }
+
+  const handleEditProduct = (payload) => {
+    if (!editingProduct) return
+    updateProduct(editingProduct.id, payload)
+    success('Товар обновлён', { description: payload.name })
+  }
+
+  const handleDeleteProduct = (product, e) => {
+    e?.preventDefault?.()
+    e?.stopPropagation?.()
+    if (!window.confirm(`Удалить «${product.name}» из каталога?`)) return
+    deleteProduct(product.id)
+    success('Товар удалён', { description: product.name })
+  }
+
   return (
     <div className="pt-16 min-h-screen bg-gray-50 dark:bg-slate-900">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -251,6 +185,11 @@ const Catalog = () => {
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
             Выберите подходящий баллон с кислородом из нашего широкого ассортимента
           </p>
+          {isAdmin && (
+            <p className="mt-3 text-sm text-primary-600 dark:text-primary-400">
+              Режим администратора: редактирование и удаление — на карточках товаров
+            </p>
+          )}
         </motion.div>
 
         {/* Search and Filters */}
@@ -483,44 +422,66 @@ const Catalog = () => {
                   </div>
 
                   {/* Actions */}
-                  <div className="flex gap-2">
-                    <motion.button
-                      onClick={() => openProductModal(product)}
-                      className="flex-1 bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 text-gray-700 dark:text-gray-300 font-semibold py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center"
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      <Eye className="w-4 h-4 mr-2" />
-                      Подробнее
-                    </motion.button>
-                    <motion.button
-                      onClick={() => handleAddToCart(product)}
-                      disabled={!product.inStock}
-                      className="flex-1 bg-primary-600 hover:bg-primary-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center"
-                      whileHover={{ scale: product.inStock ? 1.02 : 1 }}
-                      whileTap={{ scale: product.inStock ? 0.98 : 1 }}
-                    >
-                      <ShoppingCart className="w-4 h-4 mr-2" />
-                      В корзину
-                    </motion.button>
-                    <button
-                      type="button"
-                      onClick={(e) => handleToggleFavorite(product, e)}
-                      className={`px-4 py-3 border rounded-lg transition-colors duration-200 shrink-0 ${
-                        isFavorite(product.id)
-                          ? 'border-red-400 bg-red-50 dark:bg-red-900/20 dark:border-red-500'
-                          : 'border-gray-300 dark:border-gray-600 hover:border-primary-600 dark:hover:border-primary-400'
-                      }`}
-                      aria-label={isFavorite(product.id) ? 'Убрать из избранного' : 'В избранное'}
-                    >
-                      <Heart
-                        className={`w-4 h-4 ${
+                  <div className="flex flex-col gap-2">
+                    <div className="flex gap-2">
+                      <motion.button
+                        onClick={() => openProductModal(product)}
+                        className="flex-1 bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 text-gray-700 dark:text-gray-300 font-semibold py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center"
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                      >
+                        <Eye className="w-4 h-4 mr-2" />
+                        Подробнее
+                      </motion.button>
+                      <motion.button
+                        onClick={() => handleAddToCart(product)}
+                        disabled={!product.inStock}
+                        className="flex-1 bg-primary-600 hover:bg-primary-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center"
+                        whileHover={{ scale: product.inStock ? 1.02 : 1 }}
+                        whileTap={{ scale: product.inStock ? 0.98 : 1 }}
+                      >
+                        <ShoppingCart className="w-4 h-4 mr-2" />
+                        В корзину
+                      </motion.button>
+                      <button
+                        type="button"
+                        onClick={(e) => handleToggleFavorite(product, e)}
+                        className={`px-4 py-3 border rounded-lg transition-colors duration-200 shrink-0 ${
                           isFavorite(product.id)
-                            ? 'text-red-500 fill-red-500'
-                            : 'text-gray-600 dark:text-gray-300'
+                            ? 'border-red-400 bg-red-50 dark:bg-red-900/20 dark:border-red-500'
+                            : 'border-gray-300 dark:border-gray-600 hover:border-primary-600 dark:hover:border-primary-400'
                         }`}
-                      />
-                    </button>
+                        aria-label={isFavorite(product.id) ? 'Убрать из избранного' : 'В избранное'}
+                      >
+                        <Heart
+                          className={`w-4 h-4 ${
+                            isFavorite(product.id)
+                              ? 'text-red-500 fill-red-500'
+                              : 'text-gray-600 dark:text-gray-300'
+                          }`}
+                        />
+                      </button>
+                    </div>
+                    {isAdmin && (
+                      <div className="flex gap-2">
+                        <button
+                          type="button"
+                          onClick={(e) => openEditModal(product, e)}
+                          className="flex-1 flex items-center justify-center gap-2 py-2.5 px-3 border border-primary-300 dark:border-primary-600 text-primary-600 dark:text-primary-400 rounded-lg hover:bg-primary-50 dark:hover:bg-primary-900/20 text-sm font-medium"
+                        >
+                          <Pencil className="w-4 h-4" />
+                          Изменить
+                        </button>
+                        <button
+                          type="button"
+                          onClick={(e) => handleDeleteProduct(product, e)}
+                          className="flex-1 flex items-center justify-center gap-2 py-2.5 px-3 border border-red-300 dark:border-red-600 text-red-600 dark:text-red-400 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 text-sm font-medium"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                          Удалить
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </div>
               </motion.div>
@@ -556,6 +517,14 @@ const Catalog = () => {
         product={selectedProduct}
         isOpen={isProductModalOpen}
         onClose={closeProductModal}
+      />
+
+      <ProductFormModal
+        isOpen={isEditModalOpen}
+        onClose={closeEditModal}
+        onSubmit={handleEditProduct}
+        product={editingProduct}
+        mode="edit"
       />
     </div>
   )

@@ -1,5 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import tailwindcss from 'tailwindcss'
+import autoprefixer from 'autoprefixer'
 
 // GitHub Pages: сайт в /RepoName/ — в CI задаётся VITE_BASE; локально ./
 const viteBase = process.env.VITE_BASE
@@ -12,6 +14,13 @@ const base =
 
 export default defineConfig({
   plugins: [react()],
+  // Явно задаём PostCSS здесь, чтобы не подхватывался postcss.config.js из родителя (OneDrive),
+  // где нет node_modules с tailwindcss — из‑за этого падал dev‑сервер.
+  css: {
+    postcss: {
+      plugins: [tailwindcss(), autoprefixer()],
+    },
+  },
   base,
   test: {
     environment: 'jsdom',

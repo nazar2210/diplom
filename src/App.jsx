@@ -5,6 +5,7 @@ import { AuthProvider } from './contexts/AuthContext'
 import { CartProvider } from './contexts/CartContext'
 import { FavoritesProvider } from './contexts/FavoritesContext'
 import { ReviewsProvider } from './contexts/ReviewsContext'
+import { ProductsProvider } from './contexts/ProductsContext'
 import NotificationProvider from './contexts/NotificationContext'
 import Layout from './components/Layout'
 import Home from './pages/Home'
@@ -38,6 +39,7 @@ function App() {
   return (
     <ThemeProvider>
       <AuthProvider>
+        <ProductsProvider>
         <CartProvider>
           <FavoritesProvider>
           <NotificationProvider>
@@ -80,6 +82,7 @@ function App() {
           </NotificationProvider>
           </FavoritesProvider>
         </CartProvider>
+        </ProductsProvider>
       </AuthProvider>
     </ThemeProvider>
   )
